@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
 PKG_VERSION:=0.3
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 
 include $(INCLUDE_DIR)/package.mk
@@ -26,6 +26,7 @@ define Package/vpnd/install
 	$(INSTALL_DIR) $(1)/etc/ppp/ip-up.d
 	$(INSTALL_DIR) $(1)/etc/ppp/ip-down.d
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	$(INSTALL_DIR) $(1)/bin
 	$(INSTALL_CONF) ./files/mujj.rtbl $(1)/etc/mujjus/
 	$(INSTALL_CONF) ./files/firewall $(1)/etc/mujjus/
 	$(INSTALL_CONF) ./files/servers.conf $(1)/etc/mujjus/dnsmasq.d/
@@ -33,7 +34,7 @@ define Package/vpnd/install
 	$(INSTALL_BIN) ./files/mujjus-ip-up $(1)/etc/ppp/ip-up.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-down $(1)/etc/ppp/ip-down.d/
 	$(INSTALL_BIN) ./files/35-mujjus $(1)/etc/hotplug.d/iface/
-	$(INSTALL_BIN) ./files/vpnd $(1)/bin
+	$(INSTALL_BIN) ./files/vpnd $(1)/bin/
 endef
 
 define Package/vpnd/postinst
@@ -77,7 +78,7 @@ uci commit firewall
 /etc/init.d/firewall restart
 UGDINDEX = `uci show luci | grep luci.@command | grep .name | grep vpnd | cut -c 15`
 uci delete luci.@command[$$UGDINDEX]
-uci commit luch
+uci commit luci
 endef
 
 define Build/Compile
