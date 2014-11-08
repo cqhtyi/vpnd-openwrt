@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
-PKG_VERSION:=0.2
-PKG_RELEASE:=2
+PKG_VERSION:=0.3
+PKG_RELEASE:=1
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 
 include $(INCLUDE_DIR)/package.mk
