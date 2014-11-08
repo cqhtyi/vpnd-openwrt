@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case "$1" in
+  upgrade)
+    opkg update
+    opkg upgrade vpnd
+  ;;
+  *)
+    echo "Usage: $0 (upgrade|usage)"
+  ;;
+esac
+exit 0

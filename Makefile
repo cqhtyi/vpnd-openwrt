@@ -11,7 +11,7 @@ define Package/vpnd
    SECTION:=net
    CATEGORY:=Network
    SUBMENU:=Routing and Redirection
-   DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-u32 +iptables-mod-ipopt +iptables-mod-nat-extra
+   DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-u32 +iptables-mod-ipopt +iptables-mod-nat-extra +luci-app-commands
    TITLE:=Smart routing solution by MuJJ.us
    MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
    PKGARCH:=all
@@ -33,6 +33,7 @@ define Package/vpnd/install
 	$(INSTALL_BIN) ./files/mujjus-ip-up $(1)/etc/ppp/ip-up.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-down $(1)/etc/ppp/ip-down.d/
 	$(INSTALL_BIN) ./files/35-mujjus $(1)/etc/hotplug.d/iface/
+	$(INSTALL_BIN) ./files/vpnd $(1)/bin
 endef
 
 define Package/vpnd/postinst
@@ -43,6 +44,10 @@ uci add firewall include
 uci set firewall.@include[-1].path=/etc/mujjus/firewall
 uci commit firewall
 /etc/init.d/firewall reload
+uci add luci command
+uci set luci.@command[-1].name=vpnd
+uci set luci.@command[-1].path="/bin/vpnd upgrade"
+uci commit luci
 uci show network | grep -q "^network.mujjus"
 if [ "$$?" -ne "0" ]; then
     uci set network.mujjus=interface
@@ -70,6 +75,9 @@ FWINDEX = `uci show firewall | grep firewall.@include | grep /etc/mujjus/firewal
 uci delete firewall.@include[$$FWINDEX]
 uci commit firewall
 /etc/init.d/firewall restart
+UGDINDEX = `uci show luci | grep luci.@command | grep .name | grep vpnd | cut -c 15`
+uci delete luci.@command[$$UGDINDEX]
+uci commit luch
 endef
 
 define Build/Compile
