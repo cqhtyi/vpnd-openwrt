@@ -1,0 +1,28 @@
+#!/bin/sh
+
+IFACE="$1"
+IFNAME="pptp-mujjus"
+LOCAL_ADDR="$4"
+TABLE_ID="100"
+PREF="100"
+FWMARK="100"
+
+if [ "$IFACE" != "$IFNAME" ]; then
+	exit 0
+fi
+
+logger "$IFNAME policy routing starting..."
+
+BATCH="route add default via $LOCAL_ADDR dev $IFACE table $TABLE_ID\n"
+BATCH="$BATCH""rule add fwmark $FWMARK lookup $TABLE_ID pref $PREF\n"
+
+ipset create mujj iphash -exist
+ipset restore -exist < /etc/mujjus/mujj.rtbl
+
+MSG=`echo -e $BATCH | ip -batch - 2>&1`
+
+if [ "$?" != "0" ]; then
+  logger "An error occurred while starting policy route: $MSG"
+else
+  logger "$IFNAME policy routing is ready."
+fi
