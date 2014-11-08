@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
 PKG_VERSION:=0.3
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 
 include $(INCLUDE_DIR)/package.mk
@@ -47,7 +47,7 @@ uci commit firewall
 /etc/init.d/firewall reload
 uci add luci command
 uci set luci.@command[-1].name=vpnd
-uci set luci.@command[-1].path="/bin/vpnd upgrade"
+uci set luci.@command[-1].command="/bin/vpnd upgrade"
 uci commit luci
 uci show network | grep -q "^network.mujjus"
 if [ "$$?" -ne "0" ]; then
@@ -66,6 +66,7 @@ if [ "$$?" -ne "0" ]; then
     uci commit network
     /etc/init.d/network reload
 fi
+rm -rf /tmp/luci-*
 endef
 
 define Package/vpnd/postrm
