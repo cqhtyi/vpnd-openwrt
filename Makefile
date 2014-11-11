@@ -4,6 +4,8 @@ PKG_NAME:=vpnd
 PKG_VERSION:=0.3
 PKG_RELEASE:=3
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
+PKG_LICENSE:=GPLv2
+PKG_LICENSE_FILE=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 
