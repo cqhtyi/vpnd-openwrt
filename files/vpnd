@@ -4,6 +4,12 @@ case "$1" in
   upgrade)
     opkg update
     opkg upgrade vpnd
+    if [ ifstatus mujjus | grep up | grep -q true ]; then
+        echo -n "Reload Routing Table..."
+        ipset flush rtbl
+        ipset restore -exist < /etc/mujjus/mujj.rtbl
+        echo "Done"
+    fi
   ;;
   *)
     echo "Usage: $0 (upgrade|usage)"
