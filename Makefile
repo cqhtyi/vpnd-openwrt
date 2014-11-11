@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
-PKG_VERSION:=0.3
-PKG_RELEASE:=3
+PKG_VERSION:=0.4
+PKG_RELEASE:=1
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILE=LICENSE
@@ -51,8 +51,7 @@ uci add luci command
 uci set luci.@command[-1].name=vpnd
 uci set luci.@command[-1].command="/bin/vpnd upgrade"
 uci commit luci
-uci show network | grep -q "^network.mujjus"
-if [ "$$?" -ne "0" ]; then
+if uci show network | grep -q "^network.mujjus"; then
     uci set network.mujjus=interface
     uci set network.mujjus.proto=pptp
     uci set network.mujjus.server=fc.mujj.us
@@ -60,8 +59,7 @@ if [ "$$?" -ne "0" ]; then
     uci set network.mujjus.peerdns=0
     uci set network.mujjus.keepalive="3 10"
     uci set network.mujjus.mtu=1400
-    uci get firewall.@zone[1].network | grep -q mujjus
-    if [ "$$?" -ne "0" ]; then
+    if uci get firewall.@zone[1].network | grep -q mujjus; then
         WANZONE=`uci get firewall.@zone[1].network`
         uci set firewall.@zone[1].network="$$WANZONE mujjus"
     fi
