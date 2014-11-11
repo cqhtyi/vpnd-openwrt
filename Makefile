@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
 PKG_VERSION:=0.4
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILE:=LICENSE
@@ -47,11 +47,13 @@ uci add firewall include
 uci set firewall.@include[-1].path=/etc/mujjus/firewall
 uci commit firewall
 /etc/init.d/firewall reload
-uci add luci command
-uci set luci.@command[-1].name=vpnd
-uci set luci.@command[-1].command="/bin/vpnd upgrade"
-uci commit luci
-if uci show network | grep -q "^network.mujjus"; then
+if ! uci get luci | grep luci.@command | grep .name | grep -q vpnd; then
+    uci add luci command
+    uci set luci.@command[-1].name=vpnd
+    uci set luci.@command[-1].command="/bin/vpnd upgrade"
+    uci commit luci
+fi
+if ! uci show network | grep -q "^network.mujjus"; then
     uci set network.mujjus=interface
     uci set network.mujjus.proto=pptp
     uci set network.mujjus.server=fc.mujj.us
@@ -59,7 +61,7 @@ if uci show network | grep -q "^network.mujjus"; then
     uci set network.mujjus.peerdns=0
     uci set network.mujjus.keepalive="3 10"
     uci set network.mujjus.mtu=1400
-    if uci get firewall.@zone[1].network | grep -q mujjus; then
+    if ! uci get firewall.@zone[1].network | grep -q mujjus; then
         WANZONE=`uci get firewall.@zone[1].network`
         uci set firewall.@zone[1].network="$$WANZONE mujjus"
     fi
