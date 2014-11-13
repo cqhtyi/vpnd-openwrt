@@ -1,5 +1,7 @@
 ipset create rtbl nethash -exist
 ipset create mujj iphash -exist
+iptables -t mangle -I OUTPUT -m mark --mark 100 -j RETURN
+iptables -t mangle -I PREROUTING -m mark --mark 100 -j RETURN
 iptables -t mangle -I PREROUTING -m set --match-set rtbl dst -j MARK --set-mark 100
 iptables -t mangle -I OUTPUT -m set --match-set rtbl dst -j MARK --set-mark 100
 iptables -t mangle -I PREROUTING -m set --match-set mujj dst -j MARK --set-mark 100
