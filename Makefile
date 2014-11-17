@@ -1,11 +1,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
-PKG_VERSION:=0.4
-PKG_RELEASE:=2
+PKG_VERSION:=0.5
+PKG_RELEASE:=1
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 PKG_LICENSE:=GPLv2
-PKG_LICENSE_FILE:=LICENSE
+PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -41,12 +41,16 @@ endef
 
 define Package/vpnd/postinst
 #!/bin/sh
-echo "conf-dir=/etc/mujjus/dnsmasq.d" >> /etc/dnsmasq.conf
+if ! grep -q conf-dir=/etc/mujjus/dnsmasq.d /etc/dnsmasq.conf; then
+	echo "conf-dir=/etc/mujjus/dnsmasq.d" >> /etc/dnsmasq.conf
+fi
 /etc/init.d/dnsmasq restart
-uci add firewall include
-uci set firewall.@include[-1].path=/etc/mujjus/firewall
-uci commit firewall
-/etc/init.d/firewall reload
+if ! uci show firewall | grep firewall.@include | grep -q /etc/mujjus/firewall; then
+    uci add firewall include
+    uci set firewall.@include[-1].path=/etc/mujjus/firewall
+    uci commit firewall
+fi
+/etc/init.d/firewall restart
 if ! uci get luci | grep luci.@command | grep .name | grep -q vpnd; then
     uci add luci command
     uci set luci.@command[-1].name=vpnd
@@ -76,12 +80,16 @@ define Package/vpnd/postrm
 sed -i '/^conf-dir=\/etc\/mujjus\/dnsmasq.d$/d' /etc/dnsmasq.conf
 /etc/init.d/dnsmasq restart
 FWINDEX = `uci show firewall | grep firewall.@include | grep /etc/mujjus/firewall | cut -c 19`
-uci delete firewall.@include[$$FWINDEX]
-uci commit firewall
-/etc/init.d/firewall restart
+if [ ! -n "$$FWINDEX" ]; then
+    uci delete firewall.@include[$$FWINDEX]
+    uci commit firewall
+    /etc/init.d/firewall restart
+fi
 UGDINDEX = `uci show luci | grep luci.@command | grep .name | grep vpnd | cut -c 15`
-uci delete luci.@command[$$UGDINDEX]
-uci commit luci
+if [ ! -n "$$UGDINDEX" ]; then
+    uci delete luci.@command[$$UGDINDEX]
+    uci commit luci
+fi
 endef
 
 define Build/Compile
