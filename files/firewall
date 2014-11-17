@@ -11,4 +11,5 @@ iptables -t mangle -A dnsfilter -p udp -m udp -m u32 --u32 "0&0x0F000000=0x05000
 iptables -t mangle -A dnsfilter -p udp -m udp -m u32 --u32 "0&0x0F000000=0x05000000 && 22&0xFFFF@16=0x422dfced,0x480ecd63,0x480ecd68,0x4e10310f,0x5d2e0859,0x80797e8b,0x9f6a794b,0xa9840d67,0xc043c606,0xca6a0102" -j DROP
 iptables -t mangle -A dnsfilter -p udp -m udp -m u32 --u32 "0&0x0F000000=0x05000000 && 22&0xFFFF@16=0xcab50755,0xcb620741,0xcba1e6ab,0xcf0c5862,0xd0381f2b,0xd1244921,0xd1913632,0xd1dc1eae,0xd35e4293,0xd5a9fb23" -j DROP
 iptables -t mangle -A dnsfilter -p udp -m udp -m u32 --u32 "0&0x0F000000=0x05000000 && 22&0xFFFF@16=0xd8ddbcb6,0xd8eab30d,0xf3b9bb27,0x4a7d7f66,0x4a7d9b66,0x4a7d2771,0x4a7d2766,0xd155e58a" -j DROP
+iptables -t mangle -A dnsfilter -p udp -m udp -m u32 --u32 "0&0x0F000000=0x05000000 && 0>>22&0x3C@8&0x810F=0x8000 && 0>>22&0x3C@12&0xFFFF=0x0000" -j DROP
 iptables -t mangle -I PREROUTING -m udp -p udp --sport 53 -j dnsfilter
