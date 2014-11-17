@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
 PKG_VERSION:=0.5
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=LICENSE
@@ -51,7 +51,7 @@ if ! uci show firewall | grep firewall.@include | grep -q /etc/mujjus/firewall; 
     uci commit firewall
 fi
 /etc/init.d/firewall restart
-if ! uci get luci | grep luci.@command | grep .name | grep -q vpnd; then
+if ! uci show luci | grep luci.@command | grep .name | grep -q vpnd; then
     uci add luci command
     uci set luci.@command[-1].name=vpnd
     uci set luci.@command[-1].command="/bin/vpnd upgrade"
