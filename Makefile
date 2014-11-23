@@ -72,7 +72,7 @@ if ! uci show network | grep -q "^network.mujjus"; then
     uci commit network
     /etc/init.d/network reload
 fi
-rm -rf /tmp/luci-*
+rm -f /tmp/luci-indexcache
 endef
 
 define Package/vpnd/postrm
