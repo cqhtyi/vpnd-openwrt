@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
 PKG_VERSION:=0.5
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=LICENSE
