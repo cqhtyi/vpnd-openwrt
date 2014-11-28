@@ -60,7 +60,6 @@ fi
 if ! uci show network | grep -q "^network.mujjus"; then
     uci set network.mujjus=interface
     uci set network.mujjus.proto=pptp
-    uci set network.mujjus.server=fc.mujj.us
     uci set network.mujjus.defaultroute=0
     uci set network.mujjus.peerdns=0
     uci set network.mujjus.keepalive="3 10"
