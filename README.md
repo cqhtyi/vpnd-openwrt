@@ -18,4 +18,5 @@ $ git clone https://github.com/MuJJus/vpnd-openwrt.git package/vpnd
 $ make menuconfig    # Selected the package (Network -> vpnd)
 $ make package/vpnd/compile V=99
 ```
+
 * [Prebuilt Packages on Barrier Breaker 14.07](http://dl.mujj.us/openwrt/)
