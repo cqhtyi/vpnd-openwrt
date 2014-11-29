@@ -2,6 +2,8 @@ vpnd
 ====
 Science networking solution for OpenWrt firmware by [MuJJ.us](http://mujj.us)
 
+ > System Requirement for OpenWrt Barrier Breaker 14.07 or later version.
+
 Usage
 =====
 Use vpnd only three step:
@@ -14,7 +16,7 @@ Use vpnd only three step:
 Build
 =====
 
-First, Get OpenWrt's SDK. (e.g. Barrier Breaker and ar71xx)
+First, Get the OpenWrt's SDK. (e.g. Barrier Breaker and ar71xx)
 ```
 $ wget http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
 $ tar jxf OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
