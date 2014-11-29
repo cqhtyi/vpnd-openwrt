@@ -2,6 +2,15 @@ vpnd
 ====
 Science networking solution for OpenWrt firmware by [MuJJ.us](http://mujj.us)
 
+Usage
+=====
+Use vpnd only three step:
+
+1. Build the package or download prebuilt package and install it.
+2. Reboot your router.
+3. Settings your PPTP server address/username/password in "mujjus" interface then connect it.
+4. Enjoy the internet without Firewall!
+
 Build
 =====
 
