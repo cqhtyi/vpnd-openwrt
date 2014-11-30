@@ -36,7 +36,13 @@ Q&A
 ===
 
 1. **Can use other VPN protocols?**  
-   Support any based Point-to-Point protocols like PPPoE, PPTP and L2TP.
+   Yes, it support any based Point-to-Point protocols like PPPoE, PPTP and L2TP.
 
 2. **How to use One-key upgrade in luci-app-commands?**  
    Add [this](http://dl.mujj.us/openwrt/) packages repository to ```/etc/opkg.conf```.
+
+3. **Click Run button of vpnd upgrade in luci-app-commands then very very long loading time.**  
+   Your network has encountered a problem, try again later.
+
+4. **Click Run button of vpnd upgrade in luci-app-commands then show me a error: Could not lock /var/lock/opkg.lock: Resource temporarily unavailable.**  
+   Try again later. If this error message persists please reboot your router.
