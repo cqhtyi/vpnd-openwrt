@@ -38,3 +38,5 @@ Q&A
 1. **Can use other VPN protocols?**  
    Support any based Point-to-Point protocols like PPPoE, PPTP and L2TP.
 
+2. **How to use One-key upgrade in luci-app-commands?**  
+   Add [this](http://dl.mujj.us/openwrt/) packages repository to ```/etc/opkg.conf```.
