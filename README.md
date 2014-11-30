@@ -2,7 +2,7 @@ vpnd
 ====
 Science networking solution for OpenWrt firmware by [MuJJ.us](http://mujj.us)
 
- > System Requirement for OpenWrt Barrier Breaker 14.07 or later version.
+> System Requirement for OpenWrt Barrier Breaker 14.07 or later version.
 
 Usage
 =====
@@ -31,3 +31,10 @@ $ make package/vpnd/compile V=99
 ```
 
 * [Prebuilt Packages on Barrier Breaker 14.07](http://dl.mujj.us/openwrt/)
+
+Q&A
+===
+
+1. **Can use other VPN protocols?**  
+   Support any based Point-to-Point protocols like PPPoE, PPTP and L2TP.
+
