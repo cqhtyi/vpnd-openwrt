@@ -8,6 +8,8 @@ Usage
 =====
 Use vpnd only three step:
 
+**First UNINSTALL Qihoo 360 family products on your computer. (Recommend)**
+
 1. Build the package or download prebuilt package and install it.
 2. Reboot your router.
 3. Settings your PPTP server address/username/password in "mujjus" interface then connect it.
