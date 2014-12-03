@@ -2,7 +2,7 @@
 
 IFACE="$1"
 IFNAME="pptp-mujjus"
-TABLE_ID="100"
+TABLE_ID="mujj"
 PREF="100"
 FWMARK="100"
 

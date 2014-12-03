@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
-PKG_VERSION:=0.5
-PKG_RELEASE:=4
+PKG_VERSION:=0.6
+PKG_RELEASE:=1
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=LICENSE
@@ -39,8 +39,16 @@ define Package/vpnd/install
 	$(INSTALL_BIN) ./files/vpnd $(1)/bin/
 endef
 
+define Package/vpnd/preinst
+#!/bin/sh
+ifdown mujjus
+endef
+
 define Package/vpnd/postinst
 #!/bin/sh
+if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
+	echo -e "100\tmujj" >> /etc/iproute2/rt_tables
+fi
 if ! grep -q conf-dir=/etc/mujjus/dnsmasq.d /etc/dnsmasq.conf; then
 	echo "conf-dir=/etc/mujjus/dnsmasq.d" >> /etc/dnsmasq.conf
 fi
@@ -72,11 +80,13 @@ if ! uci show network | grep -q "^network.mujjus"; then
     /etc/init.d/network reload
 fi
 rm -f /tmp/luci-indexcache
+ifup mujjus
 endef
 
 define Package/vpnd/postrm
 #!/bin/sh
-sed -i '/^conf-dir=\/etc\/mujjus\/dnsmasq.d$/d' /etc/dnsmasq.conf
+sed -i '/^100\tmujj/d' /etc/iproute2/rt_tables
+sed -i '/^conf-dir=\/etc\/mujjus\/dnsmasq.d/d' /etc/dnsmasq.conf
 /etc/init.d/dnsmasq restart
 FWINDEX = `uci show firewall | grep firewall.@include | grep /etc/mujjus/firewall | cut -c 19`
 if [ ! -n "$$FWINDEX" ]; then

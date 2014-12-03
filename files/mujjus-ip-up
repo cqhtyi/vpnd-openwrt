@@ -3,7 +3,7 @@
 IFACE="$1"
 IFNAME="pptp-mujjus"
 LOCAL_ADDR="$4"
-TABLE_ID="100"
+TABLE_ID="mujj"
 PREF="100"
 FWMARK="100"
 
@@ -15,6 +15,7 @@ logger "$IFNAME policy routing starting..."
 
 BATCH="route add default via $LOCAL_ADDR dev $IFACE table $TABLE_ID\n"
 BATCH="$BATCH""rule add fwmark $FWMARK lookup $TABLE_ID pref $PREF\n"
+BATCH="$BATCH""route flush cache"
 
 ipset create mujj iphash -exist
 ipset restore -exist < /etc/mujjus/mujj.rtbl
