@@ -48,3 +48,6 @@ Q&A
 
 4. **Click Run button of vpnd upgrade in luci-app-commands then show me a error: Could not lock /var/lock/opkg.lock: Resource temporarily unavailable.**  
    Try again later. If this error message persists please reboot your router.
+
+5. **An error when installing: But that file is already provided by package * dnsmasq.**  
+   Remove dnsmasq package first. (Don't stop dnsmasq service)
