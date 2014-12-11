@@ -39,7 +39,7 @@ endef
 
 define Package/vpnd/preinst
 #!/bin/sh
-ifdown mujjus
+ifdown mujjus >/dev/null
 endef
 
 define Package/vpnd/postinst
@@ -78,7 +78,7 @@ if ! uci show network | grep -q "^network.mujjus"; then
     /etc/init.d/network reload
 fi
 rm -f /tmp/luci-indexcache
-ifup mujjus
+ifup mujjus >/dev/null
 endef
 
 define Package/vpnd/postrm
