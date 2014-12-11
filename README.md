@@ -28,7 +28,7 @@ $ cd OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2
 Build the package
 ```
 $ git clone https://github.com/MuJJus/vpnd-openwrt.git package/vpnd
-$ make menuconfig    # Selected the package (Network -> vpnd)
+$ make menuconfig    # Selected the package (Network -> Routing and Redirection -> vpnd)
 $ make package/vpnd/compile V=99
 ```
 
