@@ -1,6 +1,0 @@
-#!/bin/sh
-[ ifup = "$ACTION" ] && {
-  [ wan = "$INTERFACE" ] && {
-     ifup mujjus
-  }
-}

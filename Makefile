@@ -27,7 +27,6 @@ define Package/vpnd/install
 	$(INSTALL_DIR) $(1)/etc/mujjus/dnsmasq.d
 	$(INSTALL_DIR) $(1)/etc/ppp/ip-up.d
 	$(INSTALL_DIR) $(1)/etc/ppp/ip-down.d
-	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
 	$(INSTALL_DIR) $(1)/bin
 	$(INSTALL_CONF) ./files/mujj.rtbl $(1)/etc/mujjus/
 	$(INSTALL_CONF) ./files/firewall $(1)/etc/mujjus/
@@ -35,7 +34,6 @@ define Package/vpnd/install
 	$(INSTALL_CONF) ./files/ipset.conf $(1)/etc/mujjus/dnsmasq.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-up $(1)/etc/ppp/ip-up.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-down $(1)/etc/ppp/ip-down.d/
-	$(INSTALL_BIN) ./files/35-mujjus $(1)/etc/hotplug.d/iface/
 	$(INSTALL_BIN) ./files/vpnd $(1)/bin/
 endef
 
