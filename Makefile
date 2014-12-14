@@ -44,6 +44,9 @@ endef
 
 define Package/vpnd/postinst
 #!/bin/sh
+if ! grep ^src /etc/opkg.conf | awk '{print $$2}' | grep -q ^mujjus$$; then
+        echo "src/gz mujjus http://dl.mujj.us/openwrt/$(BOARD)" >> /etc/opkg.conf
+fi
 if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
 	echo -e "100\tmujj" >> /etc/iproute2/rt_tables
 fi
