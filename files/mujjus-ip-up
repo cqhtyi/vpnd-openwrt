@@ -13,6 +13,8 @@ fi
 
 logger "$IFNAME policy routing starting..."
 
+iptables -t mangle -I PREROUTING -d $LOCAL_ADDR -j RETURN
+
 BATCH="route add default via $LOCAL_ADDR dev $IFACE table $TABLE_ID\n"
 BATCH="$BATCH""rule add fwmark $FWMARK lookup $TABLE_ID pref $PREF\n"
 BATCH="$BATCH""route flush cache"
