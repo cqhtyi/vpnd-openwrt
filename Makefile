@@ -45,21 +45,15 @@ endef
 define Package/vpnd/postinst
 #!/bin/sh
 if ! grep ^src /etc/opkg.conf | awk '{print $$2}' | grep -q ^mujjus$$; then
-        echo "src/gz mujjus http://dl.mujj.us/openwrt/$(BOARD)" >> /etc/opkg.conf
+    echo "src/gz mujjus http://dl.mujj.us/openwrt/$(BOARD)" >> /etc/opkg.conf
 fi
 if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
-	echo -e "100\tmujj" >> /etc/iproute2/rt_tables
+    echo -e "100\tmujj" >> /etc/iproute2/rt_tables
 fi
 if ! grep -q conf-dir=/etc/mujjus/dnsmasq.d /etc/dnsmasq.conf; then
-	echo "conf-dir=/etc/mujjus/dnsmasq.d" >> /etc/dnsmasq.conf
+    echo "conf-dir=/etc/mujjus/dnsmasq.d" >> /etc/dnsmasq.conf
 fi
 /etc/init.d/dnsmasq restart
-if ! uci show firewall | grep firewall.@include | grep -q /etc/mujjus/firewall; then
-    uci add firewall include
-    uci set firewall.@include[-1].path=/etc/mujjus/firewall
-    uci commit firewall
-fi
-/etc/init.d/firewall restart
 if ! uci show luci | grep luci.@command | grep .name | grep -q vpnd; then
     uci add luci command
     uci set luci.@command[-1].name=vpnd
@@ -80,6 +74,12 @@ if ! uci show network | grep -q "^network.mujjus"; then
     uci commit network
     /etc/init.d/network reload
 fi
+if ! uci show firewall | grep firewall.@include | grep -q /etc/mujjus/firewall; then
+    uci add firewall include
+    uci set firewall.@include[-1].path=/etc/mujjus/firewall
+fi
+uci commit firewall
+/etc/init.d/firewall restart
 rm -f /tmp/luci-indexcache
 ifup mujjus >/dev/null
 endef
