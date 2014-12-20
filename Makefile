@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
 PKG_VERSION:=0.8
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=LICENSE
@@ -16,7 +16,6 @@ define Package/vpnd
    DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-u32 +iptables-mod-ipopt +kmod-ipt-nathelper-extra +luci-app-commands
    TITLE:=Smart routing solution by MuJJ.us
    MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
-   PKGARCH:=all
 endef
 
 define Package/vpnd/description
