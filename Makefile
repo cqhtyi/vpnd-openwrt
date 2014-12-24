@@ -13,6 +13,7 @@ define Package/vpnd
    SECTION:=net
    CATEGORY:=Network
    SUBMENU:=Routing and Redirection
+   EXTRA_DEPENDS:=kernel (>=3.10.49)
    DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-u32 +iptables-mod-ipopt +kmod-ipt-nathelper-extra +luci-app-commands
    TITLE:=Smart routing solution by MuJJ.us
    MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
