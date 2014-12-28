@@ -16,6 +16,7 @@ define Package/vpnd
    DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-u32 +iptables-mod-ipopt +kmod-ipt-nathelper-extra +luci-app-commands
    TITLE:=Smart routing solution by MuJJ.us
    MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
+   PKGARCH:=all
 endef
 
 define Package/vpnd/description
@@ -43,9 +44,6 @@ endef
 
 define Package/vpnd/postinst
 #!/bin/sh
-if ! grep ^src /etc/opkg.conf | awk '{print $$2}' | grep -q ^mujjus$$; then
-    echo "src/gz mujjus http://dl.mujj.us/openwrt/$(BOARD)" >> /etc/opkg.conf
-fi
 if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
     echo -e "100\tmujj" >> /etc/iproute2/rt_tables
 fi
