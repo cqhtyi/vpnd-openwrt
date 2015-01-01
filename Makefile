@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnd
-PKG_VERSION:=0.8
-PKG_RELEASE:=4
+PKG_VERSION:=0.9
+PKG_RELEASE:=1
 PKG_MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=LICENSE
@@ -13,7 +13,7 @@ define Package/vpnd
    SECTION:=net
    CATEGORY:=Network
    SUBMENU:=Routing and Redirection
-   DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-u32 +iptables-mod-ipopt +kmod-ipt-nathelper-extra +luci-app-commands
+   DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-ipopt +kmod-ipt-nathelper-extra +luci-app-commands +ChinaDNS-C +luci-app-chinadns-c
    TITLE:=Smart routing solution by MuJJ.us
    MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
    PKGARCH:=all
@@ -44,6 +44,8 @@ endef
 
 define Package/vpnd/postinst
 #!/bin/sh
+/etc/init.d/chinadns start
+/etc/init.d/chinadns enable
 if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
     echo -e "100\tmujj" >> /etc/iproute2/rt_tables
 fi
