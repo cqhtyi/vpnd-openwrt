@@ -3,7 +3,7 @@
 case "$1" in
   upgrade)
     opkg update
-    opkg upgrade vpnd
+    opkg upgrade ChinaDNS-C luci-app-chinadns-c vpnd
   ;;
   *)
     echo "Usage: $0 (upgrade|usage)"
