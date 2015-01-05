@@ -1,0 +1,11 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+    delete ucitrack.@vpnd[-1]
+    add ucitrack vpnd
+    set ucitrack.@vpnd[-1].exec="/bin/vpnd restart"
+    commit ucitrack
+EOF
+
+rm -f /tmp/luci-indexcache
+exit 0

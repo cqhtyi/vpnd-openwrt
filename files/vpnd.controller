@@ -1,0 +1,13 @@
+--[[
+the LuCI model for vpnd
+]]--
+
+module("luci.controller.vpnd", package.seeall)
+
+function index()
+        if not nixio.fs.access("/etc/config/vpnd") then
+                return
+        end
+
+        entry({"admin", "services", "vpnd"}, cbi("vpnd"), _("VPND"), 70).dependent = true
+end

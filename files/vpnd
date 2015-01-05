@@ -1,12 +1,97 @@
 #!/bin/sh
 
+LOCKFILE="/var/lock/vpnd.lock"
+IPT="iptables -t mangle"
+
+start() {
+    if [ -f "$LOCKFILE" ]; then
+        echo "Could not lock $LOCKFILE: Resource temporarily unavailable."
+        exit 1
+    fi
+
+    . /lib/functions.sh
+    config_load vpnd
+
+    config_foreach apply_polices polices
+    config_foreach apply_general vpnd
+
+    touch $LOCKFILE
+}
+
+stop() {
+    $IPT --flush vpnd_prerouting
+    $IPT --flush vpnd_output
+    rm -f $LOCKFILE
+}
+
+apply_polices() {
+    local enable
+    config_get_bool enable $1 enable
+
+    if [ "$enable" ]; then
+        local srchost
+        local policy
+
+        config_get srchost $1 srchost
+        config_get policy $1 policy
+
+        case "$policy" in
+          smart)
+            $IPT -A vpnd_prerouting -s $srchost -m set --match-set rtbl dst -j MARK --set-mark 100
+            $IPT -A vpnd_prerouting -s $srchost -m set --match-set mujj dst -j MARK --set-mark 100
+          ;;
+          international)
+            $IPT -A vpnd_prerouting -s $srchost -m set ! --match-set CN dst -j MARK --set-mark 100
+          ;;
+          disabled)
+            $IPT -A vpnd_prerouting -s $srchost -j RETURN
+          ;;
+        esac
+    fi
+}
+
+apply_general() {
+    local policy
+    config_get policy $1 policy 
+
+    $IPT -A vpnd_prerouting -m mark --mark 100 -j RETURN
+
+    case "$policy" in
+      smart)
+        $IPT -A vpnd_prerouting -m set --match-set rtbl dst -j MARK --set-mark 100
+        $IPT -A vpnd_output -m set --match-set rtbl dst -j MARK --set-mark 100
+        $IPT -A vpnd_prerouting -m set --match-set mujj dst -j MARK --set-mark 100
+        $IPT -A vpnd_output -m set --match-set mujj dst -j MARK --set-mark 100
+      ;;
+      international)
+        $IPT -A vpnd_prerouting -d 10.0.0.0/8 -j RETURN
+        $IPT -A vpnd_prerouting -d 100.64.0.0/10 -j RETURN
+	      $IPT -A vpnd_prerouting -d 172.16.0.0/12 -j RETURN
+        $IPT -A vpnd_prerouting -d 192.168.0.0/16 -j RETURN
+
+        $IPT -A vpnd_prerouting -m set ! --match-set CN dst -j MARK --set-mark 100
+      ;;
+    esac
+}
+
 case "$1" in
   upgrade)
     opkg update
     opkg upgrade ChinaDNS-C luci-app-chinadns-c vpnd
+    rm -f /etc/config/vpnd-opkg
+  ;;
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  restart)
+    stop
+    start
   ;;
   *)
-    echo "Usage: $0 (upgrade|usage)"
+    echo "Usage: $0 (start|stop|restart|upgrade|usage)"
   ;;
 esac
 exit 0

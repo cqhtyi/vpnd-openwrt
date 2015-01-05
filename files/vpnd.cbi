@@ -1,0 +1,37 @@
+--[[
+the LuCI model for vpnd
+]]--
+
+local m, s, o
+local wa = require "luci.tools.webadmin"
+
+m = Map("vpnd", translate("VPND"), translate("Science networking solution."))
+
+s = m:section(TypedSection, "vpnd", translate("General Setting"))
+s.anonymous = true
+
+o = s:option(ListValue, "policy", translate("Default Policy"))
+o:value("none", translate("None"))
+o:value("smart", translate("Smart"))
+o:value("international", translate("International"))
+o.default = "smart"
+
+s = m:section(TypedSection, "polices", translate("Polices"))
+s.template = "cbi/tblsection"
+s.anonymous = true
+s.addremove = true
+s.sortable = true
+
+s:option(Flag, "enable", translate("Enable")).default = 1
+
+o = s:option(Value, "srchost", translate("Source host"))
+o.rmempty = false
+wa.cbi_add_knownips(o)
+
+o = s:option(ListValue, "policy", translate("Policy"))
+o:value("disabled", translate("Disabled"))
+o:value("smart", translate("Smart"))
+o:value("international", translate("International"))
+o.default = "disabled"
+
+return m

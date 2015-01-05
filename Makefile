@@ -23,18 +23,33 @@ define Package/vpnd/description
 Smart routing solution by MuJJ.us
 endef
 
+define Package/vpnd/conffiles
+/etc/config/vpnd
+endef
+
 define Package/vpnd/install
 	$(INSTALL_DIR) $(1)/etc/mujjus/dnsmasq.d
 	$(INSTALL_DIR) $(1)/etc/ppp/ip-up.d
 	$(INSTALL_DIR) $(1)/etc/ppp/ip-down.d
 	$(INSTALL_DIR) $(1)/bin
 	$(INSTALL_CONF) ./files/mujj.rtbl $(1)/etc/mujjus/
+	$(INSTALL_CONF) ./files/CN.rtbl $(1)/etc/mujjus/
 	$(INSTALL_CONF) ./files/firewall $(1)/etc/mujjus/
 	$(INSTALL_CONF) ./files/servers.conf $(1)/etc/mujjus/dnsmasq.d/
 	$(INSTALL_CONF) ./files/ipset.conf $(1)/etc/mujjus/dnsmasq.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-up $(1)/etc/ppp/ip-up.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-down $(1)/etc/ppp/ip-down.d/
 	$(INSTALL_BIN) ./files/vpnd $(1)/bin/
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DATA) ./files/vpnd.config $(1)/etc/config/vpnd
+	$(INSTALL_DIR) $(1)/etc/uci-defaults/
+	$(INSTALL_BIN) ./files/vpnd.uci-defaults $(1)/etc/uci-defaults/luci-vpnd
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
+	$(INSTALL_DATA) ./files/vpnd.controller $(1)/usr/lib/lua/luci/controller/vpnd.lua
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi
+	$(INSTALL_DATA) ./files/vpnd.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd.lua
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	$(INSTALL_BIN) ./files/35-mujjus $(1)/etc/hotplug.d/iface/
 endef
 
 define Package/vpnd/preinst
@@ -44,6 +59,9 @@ endef
 
 define Package/vpnd/postinst
 #!/bin/sh
+if [ -z "$${IPKG_INSTROOT}" ]; then
+	( . /etc/uci-defaults/luci-vpnd ) && rm -f /etc/uci-defaults/luci-vpnd
+fi
 /etc/init.d/chinadns start
 /etc/init.d/chinadns enable
 if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
