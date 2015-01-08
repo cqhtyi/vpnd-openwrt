@@ -25,6 +25,7 @@ endef
 
 define Package/vpnd/conffiles
 /etc/config/vpnd
+/etc/mujjus/dnsmasq.d/custom.conf
 endef
 
 define Package/vpnd/install
@@ -37,6 +38,7 @@ define Package/vpnd/install
 	$(INSTALL_CONF) ./files/firewall $(1)/etc/mujjus/
 	$(INSTALL_CONF) ./files/servers.conf $(1)/etc/mujjus/dnsmasq.d/
 	$(INSTALL_CONF) ./files/ipset.conf $(1)/etc/mujjus/dnsmasq.d/
+	$(INSTALL_CONF) ./files/custom.conf $(1)/etc/mujjus/dnsmasq.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-up $(1)/etc/ppp/ip-up.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-down $(1)/etc/ppp/ip-down.d/
 	$(INSTALL_BIN) ./files/vpnd $(1)/bin/
@@ -46,8 +48,9 @@ define Package/vpnd/install
 	$(INSTALL_BIN) ./files/vpnd.uci-defaults $(1)/etc/uci-defaults/luci-vpnd
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
 	$(INSTALL_DATA) ./files/vpnd.controller $(1)/usr/lib/lua/luci/controller/vpnd.lua
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi
-	$(INSTALL_DATA) ./files/vpnd.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd.lua
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/vpnd
+	$(INSTALL_DATA) ./files/polices.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/polices.lua
+	$(INSTALL_DATA) ./files/dnsmasq.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/dnsmasq.lua
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
 	$(INSTALL_BIN) ./files/35-mujjus $(1)/etc/hotplug.d/iface/
 endef

@@ -9,5 +9,13 @@ function index()
                 return
         end
 
-        entry({"admin", "services", "vpnd"}, cbi("vpnd"), _("VPND"), 70).dependent = true
+        entry({"admin", "services", "vpnd"},
+                alias("admin", "services", "vpnd", "polices"),
+                _("VPND"), 70)
+
+        entry({"admin", "services", "vpnd", "polices"},
+                cbi("vpnd/polices"), _("Polices"), 10).leaf = true
+
+        entry({"admin", "services", "vpnd", "dnsmasq"},
+                cbi("vpnd/dnsmasq"), _("Custom Dnsmasq"), 20).leaf = true
 end
