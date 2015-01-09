@@ -6,7 +6,7 @@ local fs = require "nixio.fs"
 
 local f = SimpleForm("vpnd",
 	translate("VPND - Custom Dnsmasq"),
-	translate("Custom Dnsmasq allow you to add ipset rules and more."))
+	translate("Custom Dnsmasq allow you to add ipset rules and more.<br /><span style=\"color:red;font-weight:bold\">WARNING: Incorrect configuration will cause dnsmasq does not work!!!</span>"))
 
 local o = f:field(Value, "_custom")
 

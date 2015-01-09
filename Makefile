@@ -100,7 +100,6 @@ if ! uci show firewall | grep firewall.@include | grep -q /etc/mujjus/firewall; 
 fi
 uci commit firewall
 /etc/init.d/firewall restart
-rm -f /tmp/luci-indexcache
 ifup mujjus >/dev/null
 endef
 
