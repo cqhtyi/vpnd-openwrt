@@ -28,7 +28,7 @@ apply_polices() {
     local enable
     config_get_bool enable $1 enable
 
-    if [ "$enable" ]; then
+    if [ "$enable" = 1 ]; then
         local srchost
         local policy
 
