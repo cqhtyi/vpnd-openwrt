@@ -77,7 +77,7 @@ apply_general() {
 case "$1" in
   upgrade)
     opkg update
-    opkg upgrade ChinaDNS-C luci-app-chinadns-c vpnd
+    opkg upgrade ChinaDNS luci-app-chinadns vpnd
     rm -f /etc/config/vpnd-opkg
   ;;
   start)
