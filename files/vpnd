@@ -83,13 +83,34 @@ case "$1" in
   ;;
   start)
     start
+    $0 watchdog >/dev/null 2>&1 &
   ;;
   stop)
     stop
+    kill `cat /var/run/vpnd-watchdog.pid`
+    rm -f /var/run/vpnd-watchdog.pid
   ;;
   restart)
     stop
     start
+  ;;
+  watchdog)
+    if [ -f "/var/run/vpnd-watchdog.pid" ]; then
+      exit 1
+    fi
+
+    echo $$ > /var/run/vpnd-watchdog.pid
+
+    while :
+    do
+      sleep 30
+      if [ -f "/var/run/pptp-mujjus.pid" ] && [ ! -f "/var/lock/vpnd-interface.lock" ]; then
+        PID=`cat /var/run/pptp-mujjus.pid`
+        if [ -d "/proc/$PID" ]; then
+          ifup mujjus
+        fi
+      fi
+    done
   ;;
   *)
     echo "Usage: $0 (start|stop|restart|upgrade|usage)"

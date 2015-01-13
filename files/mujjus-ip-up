@@ -11,6 +11,7 @@ if [ "$IFACE" != "$IFNAME" ]; then
 	exit 0
 fi
 
+touch /var/lock/vpnd-interface.lock
 logger "$IFNAME policy routing starting..."
 
 iptables -t mangle -I PREROUTING -d $LOCAL_ADDR -j RETURN

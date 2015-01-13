@@ -17,4 +17,5 @@ iptables -t mangle -D PREROUTING -d $LOCAL_ADDR -j RETURN
 ip rule del fwmark $FWMARK lookup $TABLE_ID pref $PREF
 ipset flush rtbl
 
+rm -f /var/lock/vpnd-interface.lock
 logger "$IFNAME policy routing is down."
