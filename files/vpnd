@@ -66,9 +66,10 @@ apply_general() {
       international)
         $IPT -A vpnd_prerouting -d 10.0.0.0/8 -j RETURN
         $IPT -A vpnd_prerouting -d 100.64.0.0/10 -j RETURN
-	      $IPT -A vpnd_prerouting -d 172.16.0.0/12 -j RETURN
+        $IPT -A vpnd_prerouting -d 172.16.0.0/12 -j RETURN
         $IPT -A vpnd_prerouting -d 192.168.0.0/16 -j RETURN
 
+        $IPT -A vpnd_output -m set --match-set rtbl dst -j MARK --set-mark 100
         $IPT -A vpnd_prerouting -m set ! --match-set CN dst -j MARK --set-mark 100
       ;;
     esac
