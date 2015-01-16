@@ -87,6 +87,7 @@ if ! uci show network | grep -q "^network.mujjus"; then
     uci set network.mujjus.peerdns=0
     uci set network.mujjus.keepalive="3 10"
     uci set network.mujjus.mtu=1400
+    uci set network.mujjus.pppd_options="refuse-eap refuse-pap refuse-chap refuse-mschap"
     if ! uci get firewall.@zone[1].network | grep -q mujjus; then
         WANZONE=`uci get firewall.@zone[1].network`
         uci set firewall.@zone[1].network="$$WANZONE mujjus"
