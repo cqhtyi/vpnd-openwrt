@@ -34,6 +34,8 @@ o:value("smart", translate("Smart"))
 o:value("international", translate("International"))
 o.default = "disabled"
 
+s:option(Value, "args", translate("Extra arguments"))
+
 s:option(Value, "comment", translate("Comment"))
 
 return m

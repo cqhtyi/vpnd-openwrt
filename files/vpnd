@@ -31,20 +31,22 @@ apply_polices() {
     if [ "$enable" = 1 ]; then
         local srchost
         local policy
+	local args
 
         config_get srchost $1 srchost
         config_get policy $1 policy
+	config get args $1 args
 
         case "$policy" in
           smart)
-            $IPT -A vpnd_prerouting -s $srchost -m set --match-set rtbl dst -j MARK --set-mark 100
-            $IPT -A vpnd_prerouting -s $srchost -m set --match-set mujj dst -j MARK --set-mark 100
+            $IPT -A vpnd_prerouting $args -s $srchost -m set --match-set rtbl dst -j MARK --set-mark 100
+            $IPT -A vpnd_prerouting $args -s $srchost -m set --match-set mujj dst -j MARK --set-mark 100
           ;;
           international)
-            $IPT -A vpnd_prerouting -s $srchost -m set ! --match-set CN dst -j MARK --set-mark 100
+            $IPT -A vpnd_prerouting $args -s $srchost -m set ! --match-set CN dst -j MARK --set-mark 100
           ;;
           disabled)
-            $IPT -A vpnd_prerouting -s $srchost -j RETURN
+            $IPT -A vpnd_prerouting $args -s $srchost -j RETURN
           ;;
         esac
     fi
