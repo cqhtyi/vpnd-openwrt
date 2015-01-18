@@ -1,0 +1,35 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Policies"
+msgstr "规则"
+
+msgid "Custom Dnsmasq"
+msgstr "自定义 Dnsmasq"
+
+msgid "VPND - Policy Routing"
+msgstr "VPND - 策略路由"
+
+msgid "You can control policy routing rules on here."
+msgstr "您可以在这里控制策略路由规则。"
+
+msgid "Default Policy"
+msgstr "默认策略"
+
+msgid "Smart"
+msgstr "智能"
+
+msgid "International"
+msgstr "国际"
+
+msgid "Source host"
+msgstr "来源主机"
+
+msgid "Comment"
+msgstr "注释"
+
+msgid "VPND - Custom Dnsmasq"
+msgstr "VPND - 自定义 Dnsmasq"
+
+msgid "Custom Dnsmasq allow you to add ipset rules and more.<br /><span style=\"color:red;font-weight:bold\">WARNING: Incorrect configuration will cause dnsmasq does not work!!!</span>"
+msgstr "自定义 Dnsmasq 允许您添加额外的 ipset 规则。<br /><span style=\"color:red;font-weight:bold\">警告：错误的配置将导致 Dnsmasq 无法启动！！！</span>"

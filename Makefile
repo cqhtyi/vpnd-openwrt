@@ -48,6 +48,8 @@ define Package/vpnd/install
 	$(INSTALL_BIN) ./files/vpnd.uci-defaults $(1)/etc/uci-defaults/luci-vpnd
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
 	$(INSTALL_DATA) ./files/vpnd.controller $(1)/usr/lib/lua/luci/controller/vpnd.lua
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	$(INSTALL_DATA) ./files/vpnd.zh-cn.lmo $(1)/usr/lib/lua/luci/i18n/vpnd.zh-cn.lmo
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/vpnd
 	$(INSTALL_DATA) ./files/policies.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/policies.lua
 	$(INSTALL_DATA) ./files/dnsmasq.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/dnsmasq.lua
