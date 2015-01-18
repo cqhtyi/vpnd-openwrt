@@ -12,7 +12,7 @@ start() {
     . /lib/functions.sh
     config_load vpnd
 
-    config_foreach apply_polices polices
+    config_foreach apply_policies policies
     config_foreach apply_general vpnd
 
     touch $LOCKFILE
@@ -24,18 +24,18 @@ stop() {
     rm -f $LOCKFILE
 }
 
-apply_polices() {
+apply_policies() {
     local enable
     config_get_bool enable $1 enable
 
     if [ "$enable" = 1 ]; then
         local srchost
         local policy
-	local args
+        local args
 
         config_get srchost $1 srchost
         config_get policy $1 policy
-	config get args $1 args
+        config get args $1 args
 
         case "$policy" in
           smart)

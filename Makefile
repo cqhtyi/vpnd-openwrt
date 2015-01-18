@@ -49,7 +49,7 @@ define Package/vpnd/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
 	$(INSTALL_DATA) ./files/vpnd.controller $(1)/usr/lib/lua/luci/controller/vpnd.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/vpnd
-	$(INSTALL_DATA) ./files/polices.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/polices.lua
+	$(INSTALL_DATA) ./files/policies.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/policies.lua
 	$(INSTALL_DATA) ./files/dnsmasq.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/dnsmasq.lua
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
 	$(INSTALL_BIN) ./files/35-mujjus $(1)/etc/hotplug.d/iface/
