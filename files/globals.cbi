@@ -16,3 +16,14 @@ o.rmempty = false
 o = s:option(Flag, "watchdog", translate("Use watchdog"))
 o.default = 1
 o.rmempty = false
+
+o = s:option(Flag, "proxy", translate("Use transparent proxy"))
+o.default = 0
+o.rmempty = false
+
+o = s:option(Value, "proxyport", translate("Proxy Port"),
+        translate("The port of transparent proxy."))
+o.placeholder = 1080
+o.default = 1080
+o.datatype = "port"
+o.rmempty = false

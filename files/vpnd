@@ -2,6 +2,7 @@
 
 LOCKFILE="/var/lock/vpnd.lock"
 IPT="iptables -t mangle"
+IPT_NAT="iptables -t nat"
 
 . /lib/functions.sh
 config_load vpnd
@@ -19,6 +20,16 @@ start() {
         exit 1
     fi
 
+    config_get_bool proxy globals proxy
+    config_get proxyport globals poroxyport
+    
+    if [ "$proxy" = 1 ]; then
+        $IPT_NAT -A vpnd_prerouting -d 10.0.0.0/8 -j RETURN
+        $IPT_NAT -A vpnd_prerouting -d 100.64.0.0/10 -j RETURN
+        $IPT_NAT -A vpnd_prerouting -d 172.16.0.0/12 -j RETURN
+        $IPT_NAT -A vpnd_prerouting -d 192.168.0.0/16 -j RETURN
+    fi
+
     config_foreach apply_policies policies
     config_foreach apply_general vpnd
 
@@ -34,6 +45,8 @@ start() {
 stop() {
     $IPT --flush vpnd_prerouting
     $IPT --flush vpnd_output
+    $IPT_NAT --flush vpnd_prerouting
+    $IPT_NAT --flush vpnd_output
 
     if [ -f "/var/run/vpnd-watchdog.pid" ]; then
         kill `cat /var/run/vpnd-watchdog.pid`
@@ -60,12 +73,22 @@ apply_policies() {
           smart)
             $IPT -A vpnd_prerouting $args -s $srchost -m set --match-set rtbl dst -j MARK --set-mark 100
             $IPT -A vpnd_prerouting $args -s $srchost -m set --match-set mujj dst -j MARK --set-mark 100
+            if [ "$proxy" = 1 ]; then
+                $IPT_NAT -A vpnd_prerouting $args -p tcp -s $srchost -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
+                $IPT_NAT -A vpnd_prerouting $args -p tcp -s $srchost -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
+            fi
           ;;
           international)
             $IPT -A vpnd_prerouting $args -s $srchost -m set ! --match-set CN dst -j MARK --set-mark 100
+            if [ "$proxy" = 1 ]; then
+                $IPT_NAT -A vpnd_prerouting $args -p tcp -s $srchost -m set ! --match-set CN dst -j REDIRECT --to-ports $proxyport
+            fi
           ;;
           disabled)
             $IPT -A vpnd_prerouting $args -s $srchost -j RETURN
+            if [ "$proxy" = 1 ]; then
+                $IPT_NAT -A vpnd_prerouting $args -s $srchost -j RETURN
+            fi
           ;;
         esac
     fi
@@ -83,6 +106,12 @@ apply_general() {
         $IPT -A vpnd_output -m set --match-set rtbl dst -j MARK --set-mark 100
         $IPT -A vpnd_prerouting -m set --match-set mujj dst -j MARK --set-mark 100
         $IPT -A vpnd_output -m set --match-set mujj dst -j MARK --set-mark 100
+        if [ "$proxy" = 1 ]; then
+            $IPT_NAT -A vpnd_prerouting -p tcp -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_output -p tcp -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_prerouting -p tcp -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_output -p tcp -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
+        fi
       ;;
       international)
         $IPT -A vpnd_prerouting -d 10.0.0.0/8 -j RETURN
@@ -92,6 +121,10 @@ apply_general() {
 
         $IPT -A vpnd_output -m set --match-set rtbl dst -j MARK --set-mark 100
         $IPT -A vpnd_prerouting -m set ! --match-set CN dst -j MARK --set-mark 100
+        if [ "$proxy" = 1 ]; then
+            $IPT_NAT -A vpnd_output -p tcp -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_prerouting -p tcp -m set ! --match-set CN dst -j REDIRECT --to-ports $proxyport
+        fi
       ;;
     esac
 }

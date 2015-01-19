@@ -1,4 +1,5 @@
 IPT="iptables -t mangle"
+IPT_NAT="iptables -t nat"
 ipset create rtbl nethash -exist
 ipset create mujj iphash -exist
 ipset restore -exist < /etc/mujjus/CN.rtbl
@@ -8,3 +9,7 @@ $IPT -I OUTPUT -m mark --mark 100 -j RETURN
 $IPT -I PREROUTING -m mark --mark 100 -j RETURN
 $IPT -I OUTPUT -j vpnd_output
 $IPT -I PREROUTING -j vpnd_prerouting
+$IPT_NAT -N vpnd_output
+$IPT_NAT -N vpnd_prerouting
+$IPT_NAT -I OUTPUT -j vpnd_output
+$IPT_NAT -I PREROUTING -j vpnd_prerouting
