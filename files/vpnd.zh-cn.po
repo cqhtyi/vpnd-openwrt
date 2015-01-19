@@ -22,12 +22,6 @@ msgstr "智能"
 msgid "International"
 msgstr "国际"
 
-msgid "Source host"
-msgstr "来源主机"
-
-msgid "Comment"
-msgstr "注释"
-
 msgid "VPND - Custom Dnsmasq"
 msgstr "VPND - 自定义 Dnsmasq"
 
