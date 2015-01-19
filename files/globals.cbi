@@ -12,3 +12,7 @@ s.anonymous = true
 o = s:option(Flag, "enable", translate("Enable"))
 o.default = 1
 o.rmempty = false
+
+o = s:option(Flag, "watchdog", translate("Use watchdog"))
+o.default = 1
+o.rmempty = false

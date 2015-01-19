@@ -22,12 +22,24 @@ start() {
     config_foreach apply_policies policies
     config_foreach apply_general vpnd
 
+    local use_watchdog
+    config_get_bool use_watchdog globals watchdog
+    if [ "$use_watchdog" = 1 ]; then
+        $0 watchdog >/dev/null 2>&1 &
+    fi
+
     touch $LOCKFILE
 }
 
 stop() {
     $IPT --flush vpnd_prerouting
     $IPT --flush vpnd_output
+
+    if [ -f "/var/run/vpnd-watchdog.pid" ]; then
+        kill `cat /var/run/vpnd-watchdog.pid`
+        rm -f /var/run/vpnd-watchdog.pid
+    fi
+
     rm -f $LOCKFILE
 }
 
@@ -92,12 +104,9 @@ case "$1" in
   ;;
   start)
     start
-    $0 watchdog >/dev/null 2>&1 &
   ;;
   stop)
     stop
-    kill `cat /var/run/vpnd-watchdog.pid`
-    rm -f /var/run/vpnd-watchdog.pid
   ;;
   restart)
     stop
