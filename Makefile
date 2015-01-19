@@ -51,6 +51,7 @@ define Package/vpnd/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
 	$(INSTALL_DATA) ./files/vpnd.zh-cn.lmo $(1)/usr/lib/lua/luci/i18n/vpnd.zh-cn.lmo
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/vpnd
+	$(INSTALL_DATA) ./files/globals.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/globals.lua
 	$(INSTALL_DATA) ./files/policies.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/policies.lua
 	$(INSTALL_DATA) ./files/dnsmasq.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/dnsmasq.lua
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface

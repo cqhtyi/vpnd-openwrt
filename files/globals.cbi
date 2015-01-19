@@ -1,0 +1,14 @@
+--[[
+the LuCI model for vpnd
+]]--
+
+local m, s, o
+
+m = Map("vpnd", translate("VPND - Global Settings"), translate("Science networking solution by <a href=\"http://mujj.us/\" target=\"_blank\">MuJJ.us</a>."))
+
+s = m:section(TypedSection, "globals", translate("Global Settings"))
+s.anonymous = true
+
+o = s:option(Flag, "enable", translate("Enable"))
+o.default = 1
+o.rmempty = false

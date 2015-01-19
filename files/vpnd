@@ -3,14 +3,21 @@
 LOCKFILE="/var/lock/vpnd.lock"
 IPT="iptables -t mangle"
 
+. /lib/functions.sh
+config_load vpnd
+
 start() {
     if [ -f "$LOCKFILE" ]; then
         echo "Could not lock $LOCKFILE: Resource temporarily unavailable."
         exit 1
     fi
 
-    . /lib/functions.sh
-    config_load vpnd
+    local enable
+    config_get_bool enable globals enable
+
+    if [ "$enable" = 0 ]; then
+        exit 1
+    fi
 
     config_foreach apply_policies policies
     config_foreach apply_general vpnd

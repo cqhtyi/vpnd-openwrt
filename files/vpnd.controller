@@ -10,11 +10,14 @@ function index()
         end
 
         entry({"admin", "services", "vpnd"},
-                alias("admin", "services", "vpnd", "policies"),
+                alias("admin", "services", "vpnd", "globals"),
                 _("VPND"), 70)
 
+        entry({"admin", "services", "vpnd", "globals"},
+                cbi("vpnd/globals"), _("Global Settings"), 10).leaf = true
+
         entry({"admin", "services", "vpnd", "policies"},
-                cbi("vpnd/policies"), _("Policies"), 10).leaf = true
+                cbi("vpnd/policies"), _("Policy Routing"), 10).leaf = true
 
         entry({"admin", "services", "vpnd", "dnsmasq"},
                 cbi("vpnd/dnsmasq"), _("Custom Dnsmasq"), 20).leaf = true
