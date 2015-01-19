@@ -21,7 +21,7 @@ o = s:option(Flag, "proxy", translate("Use transparent proxy"))
 o.default = 0
 o.rmempty = false
 
-o = s:option(Value, "proxyport", translate("Proxy Port"),
+o = s:option(Value, "proxyport", translate("Proxy's port"),
         translate("The port of transparent proxy."))
 o.placeholder = 1080
 o.default = 1080

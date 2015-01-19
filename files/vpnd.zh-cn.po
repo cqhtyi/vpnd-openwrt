@@ -1,11 +1,32 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8\n"
 
-msgid "Policies"
-msgstr "规则"
+msgid "Global Settings"
+msgstr "全局设置"
+
+msgid "Policy Routing"
+msgstr "策略路由"
 
 msgid "Custom Dnsmasq"
 msgstr "自定义 Dnsmasq"
+
+msgid "VPND - Global Settings"
+msgstr "VPND - 全局设置"
+
+msgid "Science networking solution by <a href=\"http://mujj.us/\" target=\"_blank\">MuJJ.us</a>."
+msgstr "<a href=\"http://mujj.us/\" target=\"_blank\">MuJJ.us</a> 的科学上网解决方案."
+
+msgid "Use watchdog"
+msgstr "使用看门狗"
+
+msgid "Use transparent proxy"
+msgstr "使用透明代理"
+
+msgid "Proxy's port"
+msgstr "代理端口"
+
+msgid "The port of transparent proxy."
+msgstr "透明代理的端口"
 
 msgid "VPND - Policy Routing"
 msgstr "VPND - 策略路由"
@@ -21,6 +42,15 @@ msgstr "智能"
 
 msgid "International"
 msgstr "国际"
+
+msgid "Policies"
+msgstr "规则"
+
+msgid "Source host"
+msgstr "源主机"
+
+msgid "Comment"
+msgstr "备注"
 
 msgid "VPND - Custom Dnsmasq"
 msgstr "VPND - 自定义 Dnsmasq"
