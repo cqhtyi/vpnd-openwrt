@@ -20,9 +20,9 @@ start() {
         exit 1
     fi
 
-    local proxy
     config_get_bool proxy globals proxy
-    
+    config_get proxyport globals proxyport
+
     if [ "$proxy" = 1 ]; then
         $IPT_NAT -A vpnd_prerouting -d 10.0.0.0/8 -j RETURN
         $IPT_NAT -A vpnd_prerouting -d 100.64.0.0/10 -j RETURN
@@ -64,14 +64,10 @@ apply_policies() {
         local srchost
         local policy
         local args
-        local proxy
-        local proxyport
 
         config_get srchost $1 srchost
         config_get policy $1 policy
         config_get args $1 args
-        config_get_bool proxy globals proxy
-        config_get proxyport globals poroxyport
 
         case "$policy" in
           smart)
@@ -91,7 +87,7 @@ apply_policies() {
           disabled)
             $IPT -A vpnd_prerouting $args -s $srchost -j RETURN
             if [ "$proxy" = 1 ]; then
-                $IPT_NAT -A vpnd_prerouting $args -s $srchost -j RETURN
+                $IPT_NAT -A vpnd_prerouting $args -p tcp -s $srchost -j RETURN
             fi
           ;;
         esac
