@@ -23,8 +23,9 @@ o.rmempty = false
 
 o = s:option(Value, "proxyport", translate("Proxy's port"),
         translate("The port of transparent proxy."))
-o.placeholder = 1080
+o:depends("proxy", "")
 o.default = 1080
+o.placeholder = o.default
 o.datatype = "port"
 o.rmempty = false
 

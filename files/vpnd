@@ -119,6 +119,8 @@ apply_general() {
         $IPT -A vpnd_prerouting -d 172.16.0.0/12 -j RETURN
         $IPT -A vpnd_prerouting -d 192.168.0.0/16 -j RETURN
 
+        config_list_foreach $1 exclude apply_exclude
+
         $IPT -A vpnd_output -m set --match-set rtbl dst -j MARK --set-mark 100
         $IPT -A vpnd_prerouting -m set ! --match-set CN dst -j MARK --set-mark 100
         if [ "$proxy" = 1 ]; then
@@ -127,6 +129,17 @@ apply_general() {
         fi
       ;;
     esac
+}
+
+apply_exclude() {
+    local dest="$1"
+    
+    $IPT -A vpnd_prerouting -d $dest -j RETURN
+    $IPT -A vpnd_output -d $dest -j RETURN
+    if [ "$proxy" = 1 ]; then
+        $IPT_NAT -A vpnd_prerouting -p tcp -d $dest -j RETURN
+        $IPT_NAT -A vpnd_output -p tcp -d $dest -j RETURN
+    fi
 }
 
 case "$1" in
