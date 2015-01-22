@@ -20,8 +20,15 @@ start() {
         exit 1
     fi
 
+    local httpproxy
+    proxyargs=""
     config_get_bool proxy globals proxy
+    config_get_bool httpproxy globals httpproxy
     config_get proxyport globals proxyport
+
+    if [ "$httpproxy" = 1 ]; then
+        proxyargs="-m multiport --dport 80,443"
+    fi
 
     if [ "$proxy" = 1 ]; then
         $IPT_NAT -A vpnd_prerouting -d 10.0.0.0/8 -j RETURN
@@ -74,20 +81,20 @@ apply_policies() {
             $IPT -A vpnd_prerouting $args -s $srchost -m set --match-set rtbl dst -j MARK --set-mark 100
             $IPT -A vpnd_prerouting $args -s $srchost -m set --match-set mujj dst -j MARK --set-mark 100
             if [ "$proxy" = 1 ]; then
-                $IPT_NAT -A vpnd_prerouting $args -p tcp -s $srchost -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
-                $IPT_NAT -A vpnd_prerouting $args -p tcp -s $srchost -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
+                $IPT_NAT -A vpnd_prerouting $args -p tcp $proxyargs -s $srchost -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
+                $IPT_NAT -A vpnd_prerouting $args -p tcp $proxyargs -s $srchost -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
             fi
           ;;
           international)
             $IPT -A vpnd_prerouting $args -s $srchost -m set ! --match-set CN dst -j MARK --set-mark 100
             if [ "$proxy" = 1 ]; then
-                $IPT_NAT -A vpnd_prerouting $args -p tcp -s $srchost -m set ! --match-set CN dst -j REDIRECT --to-ports $proxyport
+                $IPT_NAT -A vpnd_prerouting $args -p tcp $proxyargs -s $srchost -m set ! --match-set CN dst -j REDIRECT --to-ports $proxyport
             fi
           ;;
           disabled)
             $IPT -A vpnd_prerouting $args -s $srchost -j RETURN
             if [ "$proxy" = 1 ]; then
-                $IPT_NAT -A vpnd_prerouting $args -p tcp -s $srchost -j RETURN
+                $IPT_NAT -A vpnd_prerouting $args -p tcp $proxyargs -s $srchost -j RETURN
             fi
           ;;
         esac
@@ -107,10 +114,10 @@ apply_general() {
         $IPT -A vpnd_prerouting -m set --match-set mujj dst -j MARK --set-mark 100
         $IPT -A vpnd_output -m set --match-set mujj dst -j MARK --set-mark 100
         if [ "$proxy" = 1 ]; then
-            $IPT_NAT -A vpnd_prerouting -p tcp -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
-            $IPT_NAT -A vpnd_output -p tcp -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
-            $IPT_NAT -A vpnd_prerouting -p tcp -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
-            $IPT_NAT -A vpnd_output -p tcp -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_prerouting -p tcp $proxyargs -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_output -p tcp $proxyargs -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_prerouting -p tcp $proxyargs -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_output -p tcp $proxyargs -m set --match-set mujj dst -j REDIRECT --to-ports $proxyport
         fi
       ;;
       international)
@@ -124,8 +131,8 @@ apply_general() {
         $IPT -A vpnd_output -m set --match-set rtbl dst -j MARK --set-mark 100
         $IPT -A vpnd_prerouting -m set ! --match-set CN dst -j MARK --set-mark 100
         if [ "$proxy" = 1 ]; then
-            $IPT_NAT -A vpnd_output -p tcp -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
-            $IPT_NAT -A vpnd_prerouting -p tcp -m set ! --match-set CN dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_output -p tcp $proxyargs -m set --match-set rtbl dst -j REDIRECT --to-ports $proxyport
+            $IPT_NAT -A vpnd_prerouting -p tcp $proxyargs -m set ! --match-set CN dst -j REDIRECT --to-ports $proxyport
         fi
       ;;
     esac
@@ -137,8 +144,8 @@ apply_exclude() {
     $IPT -A vpnd_prerouting -d $dest -j RETURN
     $IPT -A vpnd_output -d $dest -j RETURN
     if [ "$proxy" = 1 ]; then
-        $IPT_NAT -A vpnd_prerouting -p tcp -d $dest -j RETURN
-        $IPT_NAT -A vpnd_output -p tcp -d $dest -j RETURN
+        $IPT_NAT -A vpnd_prerouting -p tcp $proxyargs -d $dest -j RETURN
+        $IPT_NAT -A vpnd_output -p tcp $proxyargs -d $dest -j RETURN
     fi
 }
 

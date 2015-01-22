@@ -6,22 +6,30 @@ local m, s, o
 
 m = Map("vpnd", translate("VPND - Global Settings"), translate("Science networking solution by <a href=\"http://mujj.us/\" target=\"_blank\">MuJJ.us</a>."))
 
-s = m:section(TypedSection, "globals", translate("Global Settings"))
+s = m:section(TypedSection, "globals", nil)
 s.anonymous = true
 
-o = s:option(Flag, "enable", translate("Enable"))
+s:tab("general", translate("General Settings"))
+s:tab("tp", translate("Transparent Proxy"))
+
+o = s:taboption("general", Flag, "enable", translate("Enable"))
 o.default = 1
 o.rmempty = false
 
-o = s:option(Flag, "watchdog", translate("Use watchdog"))
+o = s:taboption("general", Flag, "watchdog", translate("Use watchdog"))
 o.default = 1
 o.rmempty = false
 
-o = s:option(Flag, "proxy", translate("Use transparent proxy"))
+o = s:taboption("tp", Flag, "proxy", translate("Use transparent proxy"))
 o.default = 0
 o.rmempty = false
 
-o = s:option(Value, "proxyport", translate("Proxy's port"),
+o = s:taboption("tp", Flag, "httpproxy", translate("Only for HTTP(S)"))
+o:depends("proxy", "")
+o.default = 0
+o.rmempty = false
+
+o = s:taboption("tp", Value, "proxyport", translate("Proxy's port"),
         translate("The port of transparent proxy."))
 o:depends("proxy", "")
 o.default = 1080

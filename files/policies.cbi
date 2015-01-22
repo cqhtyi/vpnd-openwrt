@@ -7,7 +7,7 @@ local wa = require "luci.tools.webadmin"
 
 m = Map("vpnd", translate("VPND - Policy Routing"), translate("You can control policy routing rules on here."))
 
-s = m:section(TypedSection, "vpnd", translate("General Setting"))
+s = m:section(TypedSection, "vpnd", nil)
 s.anonymous = true
 
 o = s:option(ListValue, "policy", translate("Default Policy"))
