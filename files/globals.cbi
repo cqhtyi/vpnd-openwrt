@@ -25,13 +25,13 @@ o.default = 0
 o.rmempty = false
 
 o = s:taboption("tp", Flag, "httpproxy", translate("Only for HTTP(S)"))
-o:depends("proxy", "")
+o:depends("proxy", 1)
 o.default = 0
 o.rmempty = false
 
 o = s:taboption("tp", Value, "proxyport", translate("Proxy's port"),
         translate("The port of transparent proxy."))
-o:depends("proxy", "")
+o:depends("proxy", 1)
 o.default = 1080
 o.placeholder = o.default
 o.datatype = "port"
