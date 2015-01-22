@@ -1,0 +1,21 @@
+#!/bin/sh /etc/rc.common
+
+START=20
+EXTRA_COMMANDS="restart reload"
+VPND="/bin/vpnd"
+
+start() {
+    "$VPND" start
+}
+
+stop() {
+    "$VPND" stop
+}
+
+restart() {
+    "$VPND" restart
+}
+
+reload() {
+    restart
+}

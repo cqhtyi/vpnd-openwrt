@@ -56,6 +56,8 @@ define Package/vpnd/install
 	$(INSTALL_DATA) ./files/dnsmasq.cbi $(1)/usr/lib/lua/luci/model/cbi/vpnd/dnsmasq.lua
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
 	$(INSTALL_BIN) ./files/35-mujjus $(1)/etc/hotplug.d/iface/
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/vpnd.init $(1)/etc/init.d/vpnd
 endef
 
 define Package/vpnd/preinst
@@ -68,6 +70,7 @@ define Package/vpnd/postinst
 if [ -z "$${IPKG_INSTROOT}" ]; then
 	( . /etc/uci-defaults/luci-vpnd ) && rm -f /etc/uci-defaults/luci-vpnd
 fi
+/etc/init.d/vpnd enable
 /etc/init.d/chinadns start
 /etc/init.d/chinadns enable
 if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
