@@ -14,7 +14,7 @@ msgid "VPND - Global Settings"
 msgstr "VPND - 全局设置"
 
 msgid "Science networking solution by <a href=\"http://mujj.us/\" target=\"_blank\">MuJJ.us</a>."
-msgstr "<a href=\"http://mujj.us/\" target=\"_blank\">MuJJ.us</a> 的科学上网解决方案."
+msgstr "<a href=\"http://mujj.us/\" target=\"_blank\">MuJJ.us</a> 的科学上网解决方案。"
 
 msgid "Use watchdog"
 msgstr "使用看门狗"
@@ -57,3 +57,18 @@ msgstr "VPND - 自定义 Dnsmasq"
 
 msgid "Custom Dnsmasq allow you to add ipset rules and more.<br /><span style=\"color:red;font-weight:bold\">WARNING: Incorrect configuration will cause dnsmasq does not work!!!</span>"
 msgstr "自定义 Dnsmasq 允许您添加额外的 ipset 规则。<br /><span style=\"color:red;font-weight:bold\">警告：错误的配置将导致 Dnsmasq 无法启动！！！</span>"
+
+msgid "Transparent Proxy"
+msgstr "透明代理"
+
+msgid "Only for HTTP(S)"
+msgstr "仅用于 HTTP(S)"
+
+msgid "Only for TCP 80 and 443 ports."
+msgstr "仅作用于 TCP 80 和 443 端口。"
+
+msgid "Exclude Address"
+msgstr "排除地址"
+
+msgid "Excluded destination on the policy."
+msgstr "在这个策略上被排除的目标地址。"

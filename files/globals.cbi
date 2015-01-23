@@ -24,7 +24,7 @@ o = s:taboption("tp", Flag, "proxy", translate("Use transparent proxy"))
 o.default = 0
 o.rmempty = false
 
-o = s:taboption("tp", Flag, "httpproxy", translate("Only for HTTP(S)"))
+o = s:taboption("tp", Flag, "httpproxy", translate("Only for HTTP(S)"), translate("Only for TCP 80 and 443 ports."))
 o:depends("proxy", 1)
 o.default = 0
 o.rmempty = false
