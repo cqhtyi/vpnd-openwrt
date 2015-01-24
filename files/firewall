@@ -13,3 +13,4 @@ $IPT_NAT -N vpnd_output
 $IPT_NAT -N vpnd_prerouting
 $IPT_NAT -I OUTPUT -j vpnd_output
 $IPT_NAT -I PREROUTING -j vpnd_prerouting
+/bin/vpnd restart

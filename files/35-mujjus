@@ -1,6 +1,0 @@
-#!/bin/sh
-[ ifup = "$ACTION" ] && {
-  [ mujjus = "$INTERFACE" ] && {
-     /bin/vpnd restart
-  }
-}
