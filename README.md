@@ -50,3 +50,6 @@ Q&A
 
 5. **An error when installing: But that file is already provided by package * dnsmasq.**  
    Remove dnsmasq package first. (Don't stop dnsmasq service)
+
+6. **Why transparent proxy feature does not work?**  
+   You need install ```iptables-mod-nat-extra``` package.
