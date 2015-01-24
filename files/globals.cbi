@@ -35,6 +35,5 @@ o:depends("proxy", 1)
 o.default = 1080
 o.placeholder = o.default
 o.datatype = "port"
-o.rmempty = false
 
 return m

@@ -19,7 +19,7 @@ o.default = "smart"
 o = s:option(DynamicList, "exclude", translate("Exclude Address"),
         translate("Excluded destination on the policy."))
 o:depends("policy", "international")
-o.datatype = [[ or(ip4addr, ip4prefix) ]]
+o.datatype = "ip4addr"
 
 s = m:section(TypedSection, "policies", translate("Policies"))
 s.template = "cbi/tblsection"
