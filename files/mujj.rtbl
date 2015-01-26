@@ -53,6 +53,8 @@ add rtbl 208.65.152.0/22
 add rtbl 23.236.48.0/20
 add rtbl 64.233.160.0/19
 add rtbl 185.60.216.0/22
+add rtbl 185.15.56.0/22
+add rtbl 91.198.174.0/24
 add rtbl 31.13.24.0/21
 add rtbl 199.223.232.0/21
 add rtbl 142.250.0.0/15
@@ -64,14 +66,17 @@ add rtbl 199.201.64.0/22
 add rtbl 192.133.76.0/22
 add rtbl 8.34.208.0/20
 add rtbl 74.119.76.0/22
+add rtbl 198.35.26.0/23
 add rtbl 193.200.222.0/24
 add rtbl 208.117.224.0/19
 add rtbl 209.85.128.0/17
 add rtbl 216.58.192.0/19
+add rtbl 208.80.152.0/22
 add rtbl 104.237.160.0/19
 add rtbl 192.158.28.0/22
 add rtbl 113.197.106.0/24
 add rtbl 23.251.128.0/19
+add rtbl 198.73.209.0/24
 add rtbl 108.177.0.0/17
 add rtbl 104.132.0.0/14
 add rtbl 199.96.56.0/21
