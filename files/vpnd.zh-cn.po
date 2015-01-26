@@ -72,3 +72,9 @@ msgstr "排除地址"
 
 msgid "Excluded destination on the policy."
 msgstr "在这个策略上被排除的目标地址。"
+
+msgid "Kernel module is not installed"
+msgstr "缺少内核模块"
+
+msgid "Install package iptables-mod-nat-extra"
+msgstr "安装 iptables-mod-nat-extra 软件包"
