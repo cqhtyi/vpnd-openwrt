@@ -66,7 +66,7 @@ define Package/vpnd/postinst
 if [ -z "$${IPKG_INSTROOT}" ]; then
 	( . /etc/uci-defaults/luci-vpnd ) && rm -f /etc/uci-defaults/luci-vpnd
 fi
-/etc/init.d/chinadns start
+/etc/init.d/chinadns restart
 /etc/init.d/chinadns enable
 if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
     echo -e "100\tmujj" >> /etc/iproute2/rt_tables
