@@ -36,7 +36,6 @@ define Package/vpnd/install
 	$(INSTALL_CONF) ./files/mujj.rtbl $(1)/etc/mujjus/
 	$(INSTALL_CONF) ./files/CN.rtbl $(1)/etc/mujjus/
 	$(INSTALL_CONF) ./files/firewall $(1)/etc/mujjus/
-	$(INSTALL_CONF) ./files/servers.conf $(1)/etc/mujjus/dnsmasq.d/
 	$(INSTALL_CONF) ./files/ipset.conf $(1)/etc/mujjus/dnsmasq.d/
 	$(INSTALL_CONF) ./files/custom.conf $(1)/etc/mujjus/dnsmasq.d/
 	$(INSTALL_BIN) ./files/mujjus-ip-up $(1)/etc/ppp/ip-up.d/
