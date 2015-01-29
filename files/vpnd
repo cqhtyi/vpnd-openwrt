@@ -28,10 +28,11 @@ start() {
 
     if [ "$httpproxy" = 1 ]; then
         proxyargs="-m multiport --dport 80,443"
-        $IPT_NAT -A vpnd_mark -m set ! --match-set CN dst -j REDIRECT --to-ports $proxyport
     fi
 
     if [ "$proxy" = 1 ]; then
+        $IPT_NAT -A vpnd_mark -m set ! --match-set CN dst -j REDIRECT --to-ports $proxyport
+
         $IPT_NAT -A vpnd_prerouting -d 10.0.0.0/8 -j RETURN
         $IPT_NAT -A vpnd_prerouting -d 100.64.0.0/10 -j RETURN
         $IPT_NAT -A vpnd_prerouting -d 172.16.0.0/12 -j RETURN
