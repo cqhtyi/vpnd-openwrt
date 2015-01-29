@@ -5,12 +5,14 @@ ipset create mujj iphash -exist
 ipset restore -exist < /etc/mujjus/CN.rtbl
 $IPT -N vpnd_output
 $IPT -N vpnd_prerouting
+$IPT -N vpnd_mark
 $IPT -I OUTPUT -m mark --mark 100 -j RETURN
 $IPT -I PREROUTING -m mark --mark 100 -j RETURN
 $IPT -I OUTPUT -j vpnd_output
 $IPT -I PREROUTING -j vpnd_prerouting
 $IPT_NAT -N vpnd_output
 $IPT_NAT -N vpnd_prerouting
+$IPT_NAT -N vpnd_mark
 $IPT_NAT -I OUTPUT -j vpnd_output
 $IPT_NAT -I PREROUTING -j vpnd_prerouting
 /bin/vpnd restart
