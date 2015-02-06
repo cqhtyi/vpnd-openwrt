@@ -13,7 +13,7 @@ define Package/vpnd
    SECTION:=net
    CATEGORY:=Network
    SUBMENU:=Routing and Redirection
-   DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-ipopt +kmod-ipt-nathelper-extra +luci-app-commands +ChinaDNS +luci-app-chinadns
+   DEPENDS:=+dnsmasq-full +ip +ipset +ppp-mod-pptp +iptables +iptables-mod-ipopt +luci-app-commands +ChinaDNS +luci-app-chinadns
    TITLE:=Smart routing solution by MuJJ.us
    MAINTAINER:=Jason Tse <jasontsecode@gmail.com>
    PKGARCH:=all
