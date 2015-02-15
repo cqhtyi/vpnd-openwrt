@@ -6,13 +6,18 @@ Science networking solution for OpenWrt firmware by [MuJJ.us](http://mujj.us)
 
 Usage
 =====
-Use vpnd only four step:
+Use vpnd only four steps:
 
 1. Build the package or download prebuilt package and install it.
 2. Reboot your router.
-3. Change DNS settings to ```127.0.0.1#5353``` at your router.
-4. Settings your PPTP server address/username/password in "mujjus" interface then connect it.
+3. Change DNS settings to ```127.0.0.1#5353``` on your router.
+4. Settings your PPTP server address/username/password in ```mujjus``` interface then connect it.
 5. Enjoy the internet without Firewall!
+
+Dependencies
+============
+* [ChinaDNS](https://github.com/aa65535/openwrt-chinadns)
+* [openwrt-dist-luci](https://github.com/aa65535/openwrt-dist-luci)
 
 Build
 =====
