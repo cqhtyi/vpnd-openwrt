@@ -57,14 +57,13 @@ endef
 
 define Package/vpnd/preinst
 #!/bin/sh
-ifdown mujjus >/dev/null
+[ -z "$$IPKG_INSTROOT" ] && ifdown mujjus >/dev/null
 endef
 
 define Package/vpnd/postinst
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	( . /etc/uci-defaults/luci-vpnd ) && rm -f /etc/uci-defaults/luci-vpnd
-fi
+[ ! -z "$${IPKG_INSTROOT}" ] && exit 0
+( . /etc/uci-defaults/luci-vpnd ) && rm -f /etc/uci-defaults/luci-vpnd
 /etc/init.d/chinadns restart
 /etc/init.d/chinadns enable
 if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
@@ -106,6 +105,7 @@ endef
 
 define Package/vpnd/postrm
 #!/bin/sh
+[ ! -z "$${IPKG_INSTROOT}" ] && exit 0
 sed -i '/^100\tmujj/d' /etc/iproute2/rt_tables
 sed -i '/^conf-dir=\/etc\/mujjus\/dnsmasq.d/d' /etc/dnsmasq.conf
 /etc/init.d/dnsmasq restart
