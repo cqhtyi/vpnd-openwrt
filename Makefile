@@ -58,6 +58,7 @@ endef
 define Package/vpnd/preinst
 #!/bin/sh
 [ -z "$$IPKG_INSTROOT" ] && ifdown mujjus >/dev/null
+exit 0
 endef
 
 define Package/vpnd/postinst
