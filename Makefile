@@ -66,40 +66,8 @@ define Package/vpnd/postinst
 [ ! -z "$${IPKG_INSTROOT}" ] && exit 0
 ( . /etc/uci-defaults/luci-vpnd ) && rm -f /etc/uci-defaults/luci-vpnd
 /etc/init.d/chinadns restart
-/etc/init.d/chinadns enable
-if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
-    echo -e "100\tmujj" >> /etc/iproute2/rt_tables
-fi
-if ! grep -q conf-dir=/etc/mujjus/dnsmasq.d /etc/dnsmasq.conf; then
-    echo "conf-dir=/etc/mujjus/dnsmasq.d" >> /etc/dnsmasq.conf
-fi
 /etc/init.d/dnsmasq restart
-if ! uci show luci | grep luci.@command | grep .name | grep -q vpnd; then
-    uci add luci command
-    uci set luci.@command[-1].name=vpnd
-    uci set luci.@command[-1].command="/bin/vpnd upgrade"
-    uci commit luci
-fi
-if ! uci show network | grep -q "^network.mujjus"; then
-    uci set network.mujjus=interface
-    uci set network.mujjus.proto=pptp
-    uci set network.mujjus.defaultroute=0
-    uci set network.mujjus.peerdns=0
-    uci set network.mujjus.keepalive="3 10"
-    uci set network.mujjus.mtu=1400
-    uci set network.mujjus.pppd_options="refuse-eap refuse-pap refuse-chap refuse-mschap"
-    if ! uci get firewall.@zone[1].network | grep -q mujjus; then
-        WANZONE=`uci get firewall.@zone[1].network`
-        uci set firewall.@zone[1].network="$$WANZONE mujjus"
-    fi
-    uci commit network
-    /etc/init.d/network reload
-fi
-if ! uci show firewall | grep firewall.@include | grep -q /etc/mujjus/firewall; then
-    uci add firewall include
-    uci set firewall.@include[-1].path=/etc/mujjus/firewall
-fi
-uci commit firewall
+/etc/init.d/network reload
 /etc/init.d/firewall restart
 ifup mujjus >/dev/null
 endef
