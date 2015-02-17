@@ -19,6 +19,10 @@ Dependencies
 * [ChinaDNS](https://github.com/aa65535/openwrt-chinadns)
 * [openwrt-dist-luci](https://github.com/aa65535/openwrt-dist-luci)
 
+Conflict
+========
+* dnsmasq (without full version)
+
 Build
 =====
 
