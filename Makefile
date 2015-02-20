@@ -64,7 +64,9 @@ endef
 define Package/vpnd/postinst
 #!/bin/sh
 [ ! -z "$${IPKG_INSTROOT}" ] && exit 0
-( . /etc/uci-defaults/luci-vpnd ) && rm -f /etc/uci-defaults/luci-vpnd
+VPND_POSTINST=1
+. /etc/uci-defaults/luci-vpnd
+rm -f /etc/uci-defaults/luci-vpnd
 /etc/init.d/chinadns restart
 /etc/init.d/dnsmasq restart
 /etc/init.d/network reload

@@ -8,7 +8,7 @@ uci -q batch <<-EOF >/dev/null
 EOF
 
 /etc/init.d/chinadns enable
-if ! grep -q ^100[[:space:]]mujj$$ /etc/iproute2/rt_tables; then
+if ! grep -q ^100[[:space:]]mujj$ /etc/iproute2/rt_tables; then
     echo -e "100\tmujj" >> /etc/iproute2/rt_tables
 fi
 if ! grep -q conf-dir=/etc/mujjus/dnsmasq.d /etc/dnsmasq.conf; then
@@ -22,6 +22,7 @@ if ! uci show luci | grep luci.@command | grep .name | grep -q vpnd; then
 fi
 if ! uci show network | grep -q "^network.mujjus"; then
     uci set network.mujjus=interface
+    [ -n "$VPND_POSTINST" ] && uci set network.mujjus.auto=0 
     uci set network.mujjus.proto=pptp
     uci set network.mujjus.defaultroute=0
     uci set network.mujjus.peerdns=0
@@ -30,7 +31,7 @@ if ! uci show network | grep -q "^network.mujjus"; then
     uci set network.mujjus.pppd_options="refuse-eap refuse-pap refuse-chap refuse-mschap"
     if ! uci get firewall.@zone[1].network | grep -q mujjus; then
         WANZONE=`uci get firewall.@zone[1].network`
-        uci set firewall.@zone[1].network="$$WANZONE mujjus"
+        uci set firewall.@zone[1].network="$WANZONE mujjus"
     fi
     uci commit network
 fi
