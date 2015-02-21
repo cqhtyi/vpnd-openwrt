@@ -22,7 +22,7 @@ if ! uci show luci | grep luci.@command | grep .name | grep -q vpnd; then
 fi
 if ! uci show network | grep -q "^network.mujjus"; then
     uci set network.mujjus=interface
-    [ -n "$VPND_POSTINST" ] && uci set network.mujjus.auto=0 
+    [ ! -z "$VPND_POSTINST" ] && uci set network.mujjus.auto=0 
     uci set network.mujjus.proto=pptp
     uci set network.mujjus.defaultroute=0
     uci set network.mujjus.peerdns=0
@@ -42,4 +42,4 @@ fi
 uci commit firewall
 
 rm -rf /tmp/luci-modulecache /tmp/luci-indexcache
-exit 0
+[ -z "$VPND_POSTINST" ] && exit 0
